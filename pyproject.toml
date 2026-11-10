@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invoiceflow"
+version = "1.0.0"
+description = "Human-in-the-loop intelligent invoice extraction and validation system."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+api = ["fastapi>=0.115", "uvicorn>=0.32", "python-multipart>=0.0.18"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.8"]
+
+[project.scripts]
+invoiceflow = "invoiceflow.cli:main"
+invoiceflow-benchmark = "invoiceflow.benchmark:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --cov=invoiceflow --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+omit = ["src/invoiceflow/api.py", "src/invoiceflow/cli.py", "src/invoiceflow/benchmark.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
